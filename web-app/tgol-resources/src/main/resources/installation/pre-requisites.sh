@@ -16,6 +16,18 @@ fi
 #
 #############################################
 
+# Maria
+MARIADB_ROOT_PASSWD=mariadbRootPassword
+MARIADB_CONF_FILE=/etc/mysql/my.cnf
+MARIADB_CONF_DIR=/etc/mysql/conf.d
+MARIADB_CONF_FILE_FOR_ASQATASUN=asqatasun.cnf
+
+# Maria for Asqatasun
+DATABASE_USER=asqatasun
+DATABASE_PASSWD=asqaP4sswd
+DATABASE_DBNAME=asqatasun
+DATABASE_HOST=localhost
+
 # Tomcat
 TOMCAT_LIB_DIR=/usr/share/tomcat7/lib
 TOMCAT_USER=tomcat7
@@ -63,6 +75,17 @@ apt-get -y --no-install-recommends install \
 # Remember: don't do apt-get upgrade|safe-update|dist-upgrade in Docker
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
 
+# Pre-define Maria root passwd
+echo "mysql-server mysql-server/root_password password ${MARIADB_ROOT_PASSWD}" | debconf-set-selections
+echo "mysql-server mysql-server/root_password_again password ${MARIADB_ROOT_PASSWD}" | debconf-set-selections
+
+# TODO check the simplest way to replace libmysql-java for MariaDB equivalent:
+# * either keep it as is
+# * or directly download the .jar from
+#   https://downloads.mariadb.com/enterprise/fwvz-0gmp/connectors/java/connector-java-1.5.2/mariadb-java-client-1.5.2.jar
+#   or https://mariadb.com/my_portal/download/java-client/1.5 (auth needed ?)
+#   or https://downloads.mariadb.org/connector-java/
+
 # Required packages for Asqatasun
 #   Notes:
 #     - libdbus-glib-1-2: needed for Firefox Webdriver
@@ -70,6 +93,7 @@ apt-get -y --no-install-recommends install \
     wget \
     bzip2 \
     unzip \
+    mariadb-server \
     libmysql-java \
     tomcat7 \
     libspring-instrument-java \
@@ -83,6 +107,33 @@ apt-get -y --no-install-recommends install \
 
 # @@@TODO (and don't forget to add "postfix" to the list of packages to install (just above)
 #          or configure a Mailjet / Mandrill service
+
+#############################################
+# Maria config
+#############################################
+
+cat >${MARIADB_CONF_DIR}/${MARIADB_CONF_FILE_FOR_ASQATASUN} <<EOF
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+
+[mysqld]
+collation-server = utf8_general_ci
+init-connect='SET NAMES utf8'
+character-set-server = utf8
+max_allowed_packet = 64M
+innodb_file_per_table = 1
+EOF
+
+service mysql restart
+
+# Create Asqatasun database
+mysql -u root --password="${MARIADB_ROOT_PASSWD}" --execute="GRANT USAGE ON * . * TO '${DATABASE_USER}'@'${DATABASE_HOST}' IDENTIFIED BY '${DATABASE_PASSWD}'; \
+    CREATE DATABASE IF NOT EXISTS ${DATABASE_DBNAME} CHARACTER SET utf8; \
+    GRANT ALL PRIVILEGES ON ${DATABASE_DBNAME} . * TO '${DATABASE_USER}'@'${DATABASE_HOST}'; \
+    FLUSH PRIVILEGES;"
 
 #############################################
 # Tomcat config
@@ -128,6 +179,6 @@ rm ${FIREFOX_BASENAME}.tar.bz2
 #############################################
 
 # For Docker usage
-# apt-get clean
-# apt-get autoremove
-# rm -rf /var/lib/apt/lists/*
+apt-get clean
+apt-get autoremove
+rm -rf /var/lib/apt/lists/*
