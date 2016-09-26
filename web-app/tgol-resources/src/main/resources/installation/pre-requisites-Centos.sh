@@ -66,19 +66,13 @@ fail() {
 # Packages
 #############################################
 
-yum -yq install \
+yum -y -q install \
+    wget \
+    bzip2 \
     mariadb \
     mariadb.server \
     mysql-connector-java \
-    wget
-
-
-# Packages for unattended installs
-export DEBIAN_FRONTEND=noninteractive
-apt-get update
-apt-get -y --no-install-recommends install \
-    debconf \
-    apt-utils
+    tomcat
 
 # TODO: add mysqladmin command to set root password
 
