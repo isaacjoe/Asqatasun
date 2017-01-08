@@ -22,11 +22,12 @@
 package org.asqatasun;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
+//@EnableAutoConfiguration
 @ComponentScan({
 				"org.asqatasun.entity.service",
 				"org.asqatasun.entity.dao",
@@ -36,10 +37,10 @@ import org.springframework.context.annotation.PropertySource;
 				"org.asqatasun.entity.reference.factory",
 				"org.asqatasun.entity.statistics.factory",
 				"org.asqatasun.rest"})
-@PropertySource("file://${confDir}/conf/asqatasun.properties")
 public class AsqatasunRestServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AsqatasunRestServerApplication.class, args);
 	}
+
 }

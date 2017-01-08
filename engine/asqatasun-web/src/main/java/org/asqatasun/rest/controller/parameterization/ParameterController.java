@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by meskoj on 17/05/16.
  */
-@RestController
-@RequestMapping(value="/parameters")
+//@RestController
+//@RequestMapping(value="/parameters")
 public class ParameterController extends EntityController<Parameter>{
 
 }

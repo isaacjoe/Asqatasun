@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by meskoj on 17/05/16.
  */
-@RestController
-@RequestMapping(value="/pre_process_results")
+//@RestController
+//@RequestMapping(value="/pre_process_results")
 public class PreProcessResultController extends EntityController<PreProcessResult>{
 
 }

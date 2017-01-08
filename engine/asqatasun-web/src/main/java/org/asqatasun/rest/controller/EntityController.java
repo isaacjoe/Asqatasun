@@ -49,14 +49,14 @@ public abstract class EntityController<T extends Entity> {
 //    @Autowired(required = false)
 //    protected EntityValidator<T> validator;
 
-    @ModelAttribute
+//    @ModelAttribute
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<T> getAll(@RequestParam(value = "view", required = false) String view) {
         return srv.findAll();
     }
 
-    @ModelAttribute
+//    @ModelAttribute
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public T get(@PathVariable Long id, @RequestParam(value = "view", required = false) String view) {

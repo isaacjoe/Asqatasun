@@ -161,16 +161,16 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${swaggerVersion}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.skyscreamer</groupId>
-            <artifactId>yoga-core</artifactId>
-            <version>${yogaVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.skyscreamer</groupId>
-            <artifactId>yoga-springmvc</artifactId>
-            <version>${yogaVersion}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.skyscreamer</groupId>-->
+            <!--<artifactId>yoga-core</artifactId>-->
+            <!--<version>${yogaVersion}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.skyscreamer</groupId>-->
+            <!--<artifactId>yoga-springmvc</artifactId>-->
+            <!--<version>${yogaVersion}</version>-->
+        <!--</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

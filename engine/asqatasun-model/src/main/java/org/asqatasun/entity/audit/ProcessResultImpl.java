@@ -21,9 +21,6 @@
  */
 package org.asqatasun.entity.audit;
 
-import org.asqatasun.entity.audit.Audit;
-import org.asqatasun.entity.audit.ProcessRemark;
-import org.asqatasun.entity.audit.ProcessResult;
 import org.asqatasun.entity.reference.Test;
 import org.asqatasun.entity.reference.TestImpl;
 import org.asqatasun.entity.subject.WebResource;
@@ -83,8 +80,7 @@ public abstract class ProcessResultImpl implements ProcessResult, Serializable {
     @ManyToOne
     @JoinColumn(name = "Id_Process_Result_Parent")
     private ProcessResultImpl parentResult;
-    
-    
+
     @OneToMany(mappedBy = "processResult", cascade = {CascadeType.PERSIST})
     @NotAudited
     private Set<ProcessRemarkImpl> remarkSet;
@@ -152,6 +148,7 @@ public abstract class ProcessResultImpl implements ProcessResult, Serializable {
 
     @Override
     @XmlTransient
+    @JsonIgnore
     public Audit getGrossResultAudit() {
         return grossResultAudit;
     }
@@ -163,6 +160,7 @@ public abstract class ProcessResultImpl implements ProcessResult, Serializable {
 
     @Override
     @XmlTransient
+    @JsonIgnore
     public Audit getNetResultAudit() {
         return netResultAudit;
     }
@@ -191,6 +189,7 @@ public abstract class ProcessResultImpl implements ProcessResult, Serializable {
     @XmlElementRefs({
         @XmlElementRef(type = org.asqatasun.entity.subject.PageImpl.class),
     @XmlElementRef(type = org.asqatasun.entity.subject.SiteImpl.class)})
+    @JsonIgnore
     public WebResource getSubject() {
         return subject;
     }

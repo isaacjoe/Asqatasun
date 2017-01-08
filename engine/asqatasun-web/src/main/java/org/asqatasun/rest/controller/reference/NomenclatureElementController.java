@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by meskoj on 17/05/16.
  */
-@RestController
-@RequestMapping(value="/nomenclature_elements")
+//@RestController
+//@RequestMapping(value="/nomenclature_elements")
 public class NomenclatureElementController extends EntityController<NomenclatureElement>{
 
 }

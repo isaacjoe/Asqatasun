@@ -2,12 +2,17 @@ package org.asqatasun.rest.config;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import org.asqatasun.analyser.AnalyserFactory;
 import org.asqatasun.analyser.AnalyserFactoryImpl;
 import org.asqatasun.consolidator.ConsolidatorFactory;
 import org.asqatasun.consolidator.ConsolidatorFactoryImpl;
-import org.asqatasun.contentadapter.*;
+import org.asqatasun.contentadapter.ContentsAdapterFactory;
+import org.asqatasun.contentadapter.ContentsAdapterFactoryImpl;
+import org.asqatasun.contentadapter.HTMLCleanerFactory;
+import org.asqatasun.contentadapter.HTMLParserFactory;
 import org.asqatasun.contentadapter.css.CSSContentAdapterFactory;
 import org.asqatasun.contentadapter.css.CSSContentAdapterFactoryImpl;
 import org.asqatasun.contentadapter.css.ExternalCSSRetriever;
@@ -21,7 +26,6 @@ import org.asqatasun.nomenclatureloader.NomenclatureLoader;
 import org.asqatasun.nomenclatureloader.NomenclatureLoaderImpl;
 import org.asqatasun.processor.ProcessorFactory;
 import org.asqatasun.processor.ProcessorFactoryImpl;
-import org.asqatasun.rest.jackson.CustomJacksonModule;
 import org.asqatasun.ruleimplementationloader.RuleImplementationLoaderFactory;
 import org.asqatasun.ruleimplementationloader.RuleImplementationLoaderFactoryImpl;
 import org.asqatasun.scenarioloader.ScenarioLoaderFactory;
@@ -33,10 +37,10 @@ import org.asqatasun.util.factory.DateFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
@@ -48,6 +52,7 @@ import java.nio.file.Path;
  * Created by meskoj on 18/05/16.
  */
 @Configuration
+@PropertySource("file://${confDir}/conf/asqatasun.properties")
 public class AppConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(AppConfig.class);
@@ -55,22 +60,24 @@ public class AppConfig {
     @Value("${confDir:}")
     private String confDir;
 
-    @Autowired
-    CustomJacksonModule customModule;
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
     @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-        final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        final ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(customModule);
-        converter.setObjectMapper(objectMapper);
-        return converter;
+    public Module datatypeHibernateModule() {
+        return new Hibernate4Module();
     }
+//
+//    @Bean
+//    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+//        final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+//        final ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.registerModule(new Hibernate4Module());
+//        converter.setObjectMapper(objectMapper);
+//        return converter;
+//    }
 
     @Bean
     public InitializingBean loadLogbackConfiguration() {
@@ -167,11 +174,6 @@ public class AppConfig {
         return new CSSContentAdapterFactoryImpl();
     }
 
-//    @Bean(name = "xmlizeVoter")
-//    public AdaptationActionVoter adaptationActionVoter() {
-//        return new AdaptationActionVoterImpl();
-//    }
-
     @Bean
     public ProcessorService processorService() {
         return new ProcessorServiceImpl();
@@ -226,4 +228,19 @@ public class AppConfig {
     public DateFactory dateFactory() {
         return new DateFactoryImpl();
     }
+
+//    @Bean
+//    public AuditDataService auditDataService() {
+//        return new AuditDataServiceImpl();
+//    }
+//
+//    @Bean
+//    public AuditFactory auditFactory() {
+//        return new AuditFactoryImpl();
+//    }
+//
+//    @Bean
+//    public AuditDAO auditDAO() {
+//        return new AuditDAOImpl();
+//    }
 }

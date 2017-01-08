@@ -39,6 +39,10 @@ import org.springframework.stereotype.Component;
 @Component("contractFactory")
 public class ContractFactoryImpl implements ContractFactory {
 
+    public ContractFactoryImpl() {
+        System.out.println("bou");
+    }
+
     @Override
     public Contract createContract(
             String label,

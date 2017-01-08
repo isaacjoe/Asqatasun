@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by meskoj on 17/05/16.
  */
-@RestController
-@RequestMapping(value="/test_statistics")
+//@RestController
+//@RequestMapping(value="/test_statistics")
 public class TestStatisticsController extends EntityController<TestStatistics>{
 
 }

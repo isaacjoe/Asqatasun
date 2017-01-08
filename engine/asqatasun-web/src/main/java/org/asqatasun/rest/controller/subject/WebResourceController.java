@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by meskoj on 17/05/16.
  */
-@RestController
-@RequestMapping(value="/web_resources")
+//@RestController
+//@RequestMapping(value="/web_resources")
 public class WebResourceController extends EntityController<WebResource>{
 
 }

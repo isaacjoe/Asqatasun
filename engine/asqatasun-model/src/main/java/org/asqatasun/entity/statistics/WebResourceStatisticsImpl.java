@@ -110,16 +110,13 @@ public class WebResourceStatisticsImpl
     private AuditImpl audit;
 
     @OneToMany(mappedBy = "webResourceStatistics", cascade = {CascadeType.PERSIST})
-    protected Set<ThemeStatisticsImpl> themeStatisticsSet =
-            new LinkedHashSet<ThemeStatisticsImpl>();
+    protected Set<ThemeStatisticsImpl> themeStatisticsSet = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "webResourceStatistics", cascade = {CascadeType.PERSIST})
-    protected Set<TestStatisticsImpl> testStatisticsSet =
-            new LinkedHashSet<TestStatisticsImpl>();
+    protected Set<TestStatisticsImpl> testStatisticsSet = new LinkedHashSet<>();
     
     @OneToMany(mappedBy = "webResourceStatistics", cascade = {CascadeType.PERSIST})
-    protected Set<CriterionStatisticsImpl> criterionStatisticsSet =
-            new LinkedHashSet<CriterionStatisticsImpl>();
+    protected Set<CriterionStatisticsImpl> criterionStatisticsSet = new LinkedHashSet<>();
 
     @Override
     public Long getId() {
