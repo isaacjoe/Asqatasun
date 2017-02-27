@@ -36,6 +36,13 @@ import org.asqatasun.webapp.test.data.KrashtestResult;
  * passed as JVM arguments
  *
  * @author jkowalczyk
+ *
+ * @param host.location Full URL of the Asqatasun instance to run the campaign on
+ * @param user email of the Asqatasun user
+ * @param password password of the Asqatasun user
+ * @param contract.id Contract Id of an "openbar RGAA" contract for the above mentionned user
+ * @param xvfb.display The XFVB display, typically ":0" (your graphical environment) or ":99" (the one provided by XVFB service)
+ * @param webdriver.firefox.bin Path to the Firefox ESR 31.4 binary path, typically /opt/firefox/firefox
  */
 public abstract class AbstractAsqatasunOnlineTest extends TestCase {
 
@@ -102,7 +109,7 @@ public abstract class AbstractAsqatasunOnlineTest extends TestCase {
      */
     protected String hostLocation;
     /**
-     * The firefox driver. The webdriver.firefox.bin is supposed to passed as
+     * The firefox driver. The webdriver.firefox.bin is supposed to be passed as
      * JVM argument.
      */
     protected FirefoxDriver driver;
