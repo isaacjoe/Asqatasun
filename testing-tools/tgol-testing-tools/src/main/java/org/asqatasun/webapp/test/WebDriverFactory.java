@@ -22,12 +22,14 @@
 
 package org.asqatasun.webapp.test;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.asqatasun.sebuilder.tools.ProfileFactory;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
 /**
  * WebDriverFactory that guarantees that only one instance of webdriver is used 
@@ -67,14 +69,17 @@ public class WebDriverFactory {
      * @return an instance of firefoxDriver 
      */
     public FirefoxDriver getFirefoxDriver(String display) {
+        String pathToFirefox = "/opt/firefox/firefox";
         if (webDriver == null) {
-            FirefoxBinary ffBinary = new FirefoxBinary();
+            FirefoxBinary ffBinary = new FirefoxBinary(new File(pathToFirefox));
             if (StringUtils.isNotBlank(display)) {
                 Logger.getLogger(this.getClass()).info("Setting Xvfb display with value " + display);
                 ffBinary.setEnvironmentProperty("DISPLAY", display);
             }
             ProfileFactory pf = ProfileFactory.getInstance();
-            webDriver = new FirefoxDriver(ffBinary, pf.getOnlineProfile());
+            // 2017-03-02 trying to make it work like tgol-test-scenario > AbstractWebDriverTestClass (that actually works)
+            // webDriver = new FirefoxDriver(ffBinary, pf.getOnlineProfile());
+            webDriver = new FirefoxDriver(ffBinary, new FirefoxProfile());
             webDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
             webDriver.manage().timeouts().pageLoadTimeout(310, TimeUnit.SECONDS);
         }
